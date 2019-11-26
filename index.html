@@ -2,6 +2,30 @@
 <html>
     <head>
         <title> Giphtastic </title>
+        <style>
+        
+        
+        .container {
+            width: calc(200px * 4 + 3em);
+            /* margin: auto; */
+            background-color: blue;
+        }
+
+        .results {
+            columns: 4;
+            column-gap: 1em;
+        }
+
+        .item {
+            padding: 1em;
+            padding-right: 1em;
+        }
+
+        #search_form {
+            margin: 1em;
+            padding-top: 1em;
+        }
+        </style>
     </head>
     <body>
 
@@ -20,6 +44,7 @@
         <script>
             const searchForm = document.getElementById('search_form')
             const searchInput = document.getElementById('search-input')
+            const resultsEl = document.getElementById('results')
 
             searchForm.addEventListener('submit', function(e) {
                 e.preventDefault()
@@ -36,7 +61,7 @@
                 return res.json()
                 }).then(function(json) {
                     console.log(json.data[0].images.fixed_width.url) 
-                    const resultsEl = document.getElementById('results')
+                    
                     let resultsHTML = ''
 
                     json.data.forEach(function(obj) {
@@ -46,11 +71,13 @@
                         const height = obj.images.fixed_width.height
                         const title = obj.title
 
-                        resultsHTML += `<img src="${url}" 
-                                            width="${width}" 
-                                            height = "${height}"
-                                            alt = "${title}"
-                                            >`
+                        resultsHTML += `<img 
+                                        class="item"
+                                        src="${url}" 
+                                        width="${width}" 
+                                        height = "${height}"
+                                        alt = "${title}"
+                                        >`
                     }) 
 
                     resultsEl.innerHTML = resultsHTML
