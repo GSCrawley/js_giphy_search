@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> Giphtastic  </title>
+        <title> Giphtastic </title>
     </head>
     <body>
 
@@ -18,7 +18,16 @@
             </div>
         </div>
         <script>
-        
+            const q = 'cats'
+            const apikey = 'RKjTWMuCUJYsYP828wg1PK7ACdTyD6yJ'
+            const path = `https://api.giphy.com/v1/gifs/search?apikey=${apikey}&q=cats`
+
+            fetch(path).then(function(res) {  // Promise
+               return res.json()
+            }).then(function(json) {
+                console.log(json) 
+            })
+
         </script>
     </body>
 </html>
