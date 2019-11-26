@@ -7,8 +7,8 @@
 
         <div class="container">
             <header>
-                <form>
-                <input type="text" placeholder="search">
+                <form id="search_form">
+                <input id="search-input" type="text" placeholder="search">
                     <button type="submit">Search</button>
                 </form>
             </header>
@@ -18,35 +18,48 @@
             </div>
         </div>
         <script>
-            const q = 'cats'
-            const apikey = 'RKjTWMuCUJYsYP828wg1PK7ACdTyD6yJ'
-            const path = `https://api.giphy.com/v1/gifs/search?apikey=${apikey}&q=cats`
+            const searchForm = document.getElementById('search_form')
+            const searchInput = document.getElementById('search-input')
 
-            fetch(path).then(function(res) {  // Promise
-               return res.json()
-            }).then(function(json) {
-                console.log(json.data[0].images.fixed_width.url) 
-                const resultsEl = document.getElementById('results')
-                let resultsHTML = ''
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault()
+                const q = searchInput.value
+                search(q)
 
-                json.data.forEach(function(obj) {
-                    console.log(obj)
-                    const url = obj.images.fixed_width.url
-                    const width = obj.images.fixed_width.width
-                    const height = obj.images.fixed_width.height
-                    const title = obj.title
-
-                    resultsHTML += `<img src="${url}" 
-                                         width="${width}" 
-                                         height = "${height}"
-                                         alt = "${title}"
-                                         >`
-                }) 
-
-                resultsEl.innerHTML = resultsHTML
-            }).catch(function(err) {
-                console.log(err.message)
             })
+
+            function search(q) {
+                const apikey = 'RKjTWMuCUJYsYP828wg1PK7ACdTyD6yJ'
+                const path = `https://api.giphy.com/v1/gifs/search?apikey=${apikey}&q=${q}`
+
+                fetch(path).then(function(res) {  // Promise
+                return res.json()
+                }).then(function(json) {
+                    console.log(json.data[0].images.fixed_width.url) 
+                    const resultsEl = document.getElementById('results')
+                    let resultsHTML = ''
+
+                    json.data.forEach(function(obj) {
+                        console.log(obj)
+                        const url = obj.images.fixed_width.url
+                        const width = obj.images.fixed_width.width
+                        const height = obj.images.fixed_width.height
+                        const title = obj.title
+
+                        resultsHTML += `<img src="${url}" 
+                                            width="${width}" 
+                                            height = "${height}"
+                                            alt = "${title}"
+                                            >`
+                    }) 
+
+                    resultsEl.innerHTML = resultsHTML
+                }).catch(function(err) {
+                    console.log(err.message)
+                })
+                }
+
+            
 
         </script>
     </body>
